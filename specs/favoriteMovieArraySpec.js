@@ -10,7 +10,7 @@ const FavoriteMovieArray = {
     }
 
     // eslint-disable-next-line consistent-return
-    return favoriteMovies.find((movie) => movie.id == id);
+    return favoriteMovies.find((movie) => movie.id === id);
   },
 
   getAllMovies() {
