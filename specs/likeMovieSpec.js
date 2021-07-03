@@ -81,7 +81,7 @@ describe('Liking A Movie', () => {
 
   // Testing 5
   // Memastikan bahwa apabila movie id-nya 0, tidak masuk ke dalam favorite
-  xit('should not add a movie when it has no id', async () => {
+  it('should not add a movie when it has no id', async () => {
     await LikeButtonInitiator.init({
       likeButtonContainer: document.querySelector('#likeButtonContainer'),
       movie: {},
