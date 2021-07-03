@@ -1,5 +1,6 @@
-import LikeButtonInitiator from '../src/scripts/utils/like-button-initiator';
 import FavoriteMovieIdb from '../src/scripts/data/favorite-movie-idb';
+
+import * as TestFactories from './helpers/testFactories';
 
 describe('Liking A Movie', () => {
   const addLikeButtonContainer = () => {
@@ -14,12 +15,7 @@ describe('Liking A Movie', () => {
   // Harus menampilkan like button ketika movie belum disukai
   it('should show the like button when the movie hasn`t been liked before', async () => {
     // Inisiasi like button
-    await LikeButtonInitiator.init({
-      likeButtonContainer: document.querySelector('#likeButtonContainer'),
-      movie: {
-        id: 1,
-      },
-    });
+    await TestFactories.createLikeButtonPresenterWithMovie({ id: 1 });
 
     // Memastikan bahwa button yang tampil punya atribute aria-label="like this movie"
     expect(document.querySelector('[aria-label="like this movie"]')).toBeTruthy();
@@ -29,12 +25,7 @@ describe('Liking A Movie', () => {
   // Memastikan unlike button tidak tampil ketika movie belum disukai
   it('should not show the like button when the movie hasn`t been liked before', async () => {
     // Inisiasi like button
-    await LikeButtonInitiator.init({
-      likeButtonContainer: document.querySelector('#likeButtonContainer'),
-      movie: {
-        id: 1,
-      },
-    });
+    await TestFactories.createLikeButtonPresenterWithMovie({ id: 1 });
 
     // Memastikan bahwa button yang tampil atribute aria-label TIDAK BERNILAI "like this movie"
     expect(document.querySelector('[aria-label="unlike this movie"]')).toBeFalsy();
@@ -43,12 +34,7 @@ describe('Liking A Movie', () => {
   // Testing 3
   // Memastikan bahwa movie dapat ditambahkan ke daftar favorite movie
   it('should be able to like the movie', async () => {
-    await LikeButtonInitiator.init({
-      likeButtonContainer: document.querySelector('#likeButtonContainer'),
-      movie: {
-        id: 1,
-      },
-    });
+    await TestFactories.createLikeButtonPresenterWithMovie({ id: 1 });
 
     document.querySelector('#likeButton').dispatchEvent(new Event('click'));
     const movie = await FavoriteMovieIdb.getMovie(1);
@@ -61,12 +47,7 @@ describe('Liking A Movie', () => {
   // Testing 4
   // Memastikan bahwa movie yang sudah ditambahkan ke favorite, tidak dapat ditambahkan lagi
   it('should not add a movie again when its already liked', async () => {
-    await LikeButtonInitiator.init({
-      likeButtonContainer: document.querySelector('#likeButtonContainer'),
-      movie: {
-        id: 1,
-      },
-    });
+    await TestFactories.createLikeButtonPresenterWithMovie({ id: 1 });
 
     // Tambahkan film dengan ID 1 ke daftar film yang disukai
     await FavoriteMovieIdb.putMovie({ id: 1 });
@@ -82,10 +63,7 @@ describe('Liking A Movie', () => {
   // Testing 5
   // Memastikan bahwa apabila movie id-nya 0, tidak masuk ke dalam favorite
   it('should not add a movie when it has no id', async () => {
-    await LikeButtonInitiator.init({
-      likeButtonContainer: document.querySelector('#likeButtonContainer'),
-      movie: {},
-    });
+    await TestFactories.createLikeButtonPresenterWithMovie({});
 
     document.querySelector('#likeButton').dispatchEvent(new Event('click'));
 
